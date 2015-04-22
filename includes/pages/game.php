@@ -4,7 +4,10 @@
 $row = 5;
 $col = 6;
 
-
+/**
+ * If game not started yet, create an multidimensional array $board
+ * with values = 0, which stands for emptyslot.
+ */
 $board = array();
 for($i = 0; $i <= $row; $i++)
 {
@@ -17,22 +20,29 @@ for($i = 0; $i <= $row; $i++)
 }
 
 
+/**
+ * Showing the gameboard by retreiving an serialized array from database.
+ * Firstly unserilize then manipulate the array.
+ */
 echo "<table style='no-spacing' cellspacing=\"0\">";
 foreach ($board as $rows => $cols) {
     echo "<tr>";
+    $x = 0;
     foreach ($cols as $c) {
         if($c == 0)
         {
-            echo "<td><a href='index.php?row=$i&col=$j'><img src=\"/images/emptyslot.png\" alt=\"image\"/></a></td>";
+            echo "<td><a href='index.php?row=$rows&col=$x'><img src=\"/images/emptyslot.png\" alt=\"image\"/></a></td>";
         }
         elseif($c == 1)
         {
-            echo "<td><a href='index.php?row=$i&col=$j'><img src=\"/images/yellowslot.png\" alt=\"image\"/></a></td>";
+            echo "<td><a href='index.php?row=$rows&col=$c'><img src=\"/images/yellowslot.png\" alt=\"image\"/></a></td>";
         }
         elseif($c == 2)
         {
-            echo "<td><a href='index.php?row=$i&col=$j'><img src=\"/images/redslot.png\" alt=\"image\"/></a></td>";
+            echo "<td><a href='index.php?row=$rows&col=$c''><img src=\"/images/redslot.png\" alt=\"image\"/></a></td>";
         }
+
+        $x++;
 
     }
     echo "</tr>";
@@ -41,17 +51,15 @@ foreach ($board as $rows => $cols) {
 }
 echo "</table>";
 
-/*echo "<table style='no-spacing' cellspacing=\"0\">";
-for($i = 0; $i <= $row; $i++)
-{
-    echo "<tr>";
-    for($j = 0; $j <= $col; $j++)
-    {
-        echo "<td><a href='index.php?row=$i&col=$j'><img src=\"/images/emptyslot.png\" alt=\"image\"/></a></td>";
-    }
-    echo "</tr>";
-}
-echo "</table>";*/
+?>
+
+<br>
+<a href="#">Refresh gameboard</a>
+<br>
+<a href="#">Restart game</a>
+
+
+
 
 
 
