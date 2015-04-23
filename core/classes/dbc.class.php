@@ -10,6 +10,9 @@ class Dbc
     {
         try
         {
+            /**
+             *
+             */
             require_once("/config.php");
             $dbName = 'game';
             $dbUser = 'root';
