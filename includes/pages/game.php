@@ -4,25 +4,29 @@
 $row = 5;
 $col = 6;
 
+
 /**
  * If game not started yet, create an multidimensional array $board
  * with values = 0, which stands for emptyslot.
  */
 
-/*if (!isset($_SESSION['board'])) {
+if (!isset($_SESSION['board'])) {
     $_SESSION['board'] = array();
-}*/
 
-$board = array();
-for($i = 0; $i <= $row; $i++)
-{
-
-    for($j = 0; $j <= $col; $j++)
+    for($i = 0; $i <= $row; $i++)
     {
-        $board[$i][$j] = 0;
-    }
 
+        for($j = 0; $j <= $col; $j++)
+        {
+//        $board[$i][$j] = 0;
+            $_SESSION['board'][$i][$j] = 0;
+            $_SESSION['row'][$j] = $row;
+        }
+
+    }
 }
+
+
 
 
 /**
@@ -31,7 +35,7 @@ for($i = 0; $i <= $row; $i++)
  */
 
 echo "<table style='no-spacing' cellspacing=\"0\">";
-foreach ($board as $rows => $cols) {
+foreach ($_SESSION['board'] as $rows => $cols) {
     echo "<tr>";
     $x = 0;
     foreach ($cols as $c) {
@@ -41,11 +45,11 @@ foreach ($board as $rows => $cols) {
         }
         elseif($c == 1)
         {
-            echo "<td><a href='index.php?page=game&row=$rows&col=$c'><img src=\"./images/yellowslot.png\" alt=\"image\"/></a></td>";
+            echo "<td><a href='index.php?page=game&row=$rows&col=$x'><img src=\"./images/yellowslot.png\" alt=\"image\"/></a></td>";
         }
         elseif($c == 2)
         {
-            echo "<td><a href='index.php?page=game&row=$rows&col=$c''><img src=\"./images/redslot.png\" alt=\"image\"/></a></td>";
+            echo "<td><a href='index.php?page=game&row=$rows&col=$x'><img src=\"./images/redslot.png\" alt=\"image\"/></a></td>";
         }
 
         $x++;
@@ -67,18 +71,21 @@ echo "</table>";
 
 <?php
 
-//$board[5][0] = 2;
 
 if (isset($_GET['col']))
 {
-    do {
-        echo "test";
-        $board[$row][$_GET['col']] = 2;
-    } while ($board[$row][$_GET['col']] == 0);
+    if ($_SESSION['row'][$_GET['col']] >= 0) {
+        $_SESSION['board'][$_SESSION['row'][$_GET['col']]][$_GET['col']] = 2;
 
+        if ($_SESSION['row'][$_GET['col']] != 0) {
+            $_SESSION['row'][$_GET['col']]--;
+        }
+    }
+    header("Location: index.php?page=game");
 
-
+    echo "<pre>";
+    echo $_GET['col'];
+    echo "</pre>";
 }
-
 
 
