@@ -1,33 +1,6 @@
 <h1>Four in a row</h1>
 
 <?php
-$row = 5;
-$col = 6;
-
-
-/**
- * If game not started yet, create an multidimensional array $board
- * with values = 0, which stands for emptyslot.
- */
-
-if (!isset($_SESSION['board'])) {
-    $_SESSION['board'] = array();
-
-    for($i = 0; $i <= $row; $i++)
-    {
-
-        for($j = 0; $j <= $col; $j++)
-        {
-//        $board[$i][$j] = 0;
-            $_SESSION['board'][$i][$j] = 0;
-            $_SESSION['row'][$j] = $row;
-        }
-
-    }
-}
-
-
-
 
 /**
  * Showing the gameboard by retreiving an serialized array from database.
@@ -72,20 +45,11 @@ echo "</table>";
 <?php
 
 
-if (isset($_GET['col']))
-{
-    if ($_SESSION['row'][$_GET['col']] >= 0) {
-        $_SESSION['board'][$_SESSION['row'][$_GET['col']]][$_GET['col']] = 2;
 
-        if ($_SESSION['row'][$_GET['col']] != 0) {
-            $_SESSION['row'][$_GET['col']]--;
-        }
-    }
-    header("Location: index.php?page=game");
 
     echo "<pre>";
-    echo $_GET['col'];
+    print_r($_SESSION['row']);
     echo "</pre>";
-}
+
 
 

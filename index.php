@@ -1,7 +1,10 @@
 <?php
 ob_start();
 session_start();
+require_once("core/classes/game.class.php");
+require_once("core/functions.php");
 require_once("includes/header.php");
+
 
 
 /**
