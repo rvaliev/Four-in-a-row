@@ -12,6 +12,7 @@ class Game
     private $result;
     private $steps;
     private $rows;
+    private $lastStep;
 
     private function connectToDB()
     {
@@ -46,7 +47,7 @@ class Game
 
     public function updateBoard($steps)
     {
-        $this->steps = serialize($steps);
+        $this->steps = $steps;
 
         self::connectToDB();
         $this->sql = "UPDATE gameboard SET steps = ?";
@@ -69,10 +70,7 @@ class Game
 
     public function updateRows($rows)
     {
-        $this->rows = serialize($rows);
-
-        print_r($this->rows);
-
+        $this->rows = $rows;
         self::connectToDB();
         $this->sql = "UPDATE gameboard SET rowscount = ?";
 
@@ -107,6 +105,47 @@ class Game
         }
         catch(Exception $e){
             echo "Error: Ошибка с запросом";
+            return false;
+        }
+    }
+
+    public function getLastStep()
+    {
+        self::connectToDB();
+        $this->sql = "SELECT lastmove FROM gameboard";
+
+        try{
+            $this->query = $this->handler->query($this->sql);
+
+            $this->result = $this->query->fetchAll(PDO::FETCH_ASSOC);
+            $this->query->closeCursor();
+            $this->handler = null;
+            return $this->result;
+        }
+        catch(Exception $e){
+            echo "Error: Ошибка с запросом";
+            return false;
+        }
+    }
+
+    public function setLastStep($lastStep)
+    {
+        $this->lastStep = $lastStep;
+        self::connectToDB();
+        $this->sql = "UPDATE gameboard SET lastmove = ?";
+
+        try{
+            $this->query = $this->handler->prepare($this->sql);
+            $this->query->execute(array($this->lastStep));
+
+            $this->handler = null;
+            $this->query->closeCursor();
+            return true;
+
+        }
+        catch (Exception $e)
+        {
+            echo "Updating of 1 movie failed";
             return false;
         }
     }

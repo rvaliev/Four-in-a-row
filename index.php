@@ -11,8 +11,12 @@ require_once("includes/header.php");
  * Loading the right page
  */
 $page = (!isset($_GET['page']) ? 'index' : $_GET['page']);
-include("includes/pages/$page.php");
 
+if (isset($_SESSION['color'])) {
+    $page = 'game';
+}
+
+include("includes/pages/$page.php");
 
 
 

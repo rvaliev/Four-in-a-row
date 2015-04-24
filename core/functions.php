@@ -34,8 +34,8 @@ if(empty($gamePositions[0]['steps']))
         }
 
     }
-    $gameBoardFromDB->updateBoard($_SESSION['board']);
-    $gameBoardFromDB->updateRows($_SESSION['row']);
+    $gameBoardFromDB->updateBoard(serialize($_SESSION['board']));
+    $gameBoardFromDB->updateRows(serialize($_SESSION['row']));
 }
  /**
   * If game has already been initiated, load the table data an the steps data from the DB
@@ -43,10 +43,12 @@ if(empty($gamePositions[0]['steps']))
  */
 else
 {
-    echo "not empty";
     $_SESSION['board'] = unserialize($gamePositions[0]['steps']);
     $_SESSION['row'] = unserialize($gameRows[0]['rowscount']);
 }
+
+
+
 
 
 /**
@@ -63,8 +65,53 @@ if (isset($_GET['col']))
         if ($_SESSION['row'][$_GET['col']] != 0) {
             $_SESSION['row'][$_GET['col']]--;
         }
-        $gameBoardFromDB->updateBoard($_SESSION['board']);
-        $gameBoardFromDB->updateRows($_SESSION['row']);
+        $gameBoardFromDB->updateBoard(serialize($_SESSION['board']));
+        $gameBoardFromDB->updateRows(serialize($_SESSION['row']));
+
+        $gameBoardFromDB->setLastStep($_SESSION['color']);
     }
     header("Location: index.php?page=game");
 }
+
+
+
+
+/**
+ * Restarting the game
+ */
+if (isset($_GET['restart']) && $_GET['restart'] == 1)
+{
+    $boardRestart = 0;
+    $rowsRestart = 0;
+    $gameBoardFromDB->updateBoard($boardRestart);
+    $gameBoardFromDB->updateRows($rowsRestart);
+    $gameBoardFromDB->setLastStep(0);
+
+    /**
+     * Remove choosen color from session
+     */
+    $_SESSION = array();
+    unset($_COOKIE[session_name()]);
+    session_destroy();
+
+    header("Location: index.php");
+}
+
+
+
+
+/**
+ * Assigning the color
+ */
+if (isset($_GET['color']))
+{
+    if ($_GET['color'] == "yellow")
+    {
+        $_SESSION['color'] = 1;
+    }
+    elseif ($_GET['color'] == "red")
+    {
+        $_SESSION['color'] = 2;
+    }
+}
+
