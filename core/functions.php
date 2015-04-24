@@ -60,7 +60,7 @@ else
 if (isset($_GET['col']))
 {
     if ($_SESSION['row'][$_GET['col']] >= 0) {
-        $_SESSION['board'][$_SESSION['row'][$_GET['col']]][$_GET['col']] = 2;
+        $_SESSION['board'][$_SESSION['row'][$_GET['col']]][$_GET['col']] = $_SESSION['color'];
 
         if ($_SESSION['row'][$_GET['col']] != 0) {
             $_SESSION['row'][$_GET['col']]--;
@@ -113,5 +113,7 @@ if (isset($_GET['color']))
     {
         $_SESSION['color'] = 2;
     }
+
+    header("Location: index.php?page=game");
 }
 

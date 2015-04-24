@@ -12,14 +12,6 @@
 echo "<table style='no-spacing' cellspacing=\"0\">";
 $lastMove =  $gameBoardFromDB->getLastStep();
 
-if (empty($_SESSION['color'])) {
-    if ($lastMove == 1) {
-        $_SESSION['color'] = 2;
-    }
-    elseif ($lastMove == 2){
-        $_SESSION['color'] = 1;
-    }
-}
 
 foreach ($_SESSION['board'] as $rows => $cols) {
     echo "<tr>";
@@ -69,14 +61,16 @@ echo "</table>";
 ?>
 
 <br>
-<a href="index.php?restart=1">Refresh gameboard</a>
+<a href="index.php?refresh=1">Refresh gameboard</a>
 <br>
 <a href="index.php?restart=1">Restart game</a>
 
 
 <?php
 
-
+if (isset($_GET['refresh'])) {
+    header("Location: index.php");
+}
 
 
     echo "<pre>";
