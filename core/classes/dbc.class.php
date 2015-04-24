@@ -10,13 +10,7 @@ class Dbc
     {
         try
         {
-            /**
-             *
-             */
-            require_once("/config.php");
-            $dbName = 'game';
-            $dbUser = 'root';
-            $dbPassword = '';
+            require("/config.php");
             $this->handler = new PDO('mysql:
             host=localhost;
             dbname='.$dbName.';
